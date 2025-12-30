@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ITEMS, type Item } from "./assets/items";
+import { ITEMS, type Item } from "./data/items";
 
 const LS_KEY = "cha_cozinha_my_choice";
 
