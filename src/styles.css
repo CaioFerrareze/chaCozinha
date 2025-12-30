@@ -1,0 +1,248 @@
+:root {
+    --bg1: #0b1220;
+    --bg2: #0f172a;
+    --card: rgba(255, 255, 255, 0.06);
+    --card2: rgba(255, 255, 255, 0.09);
+    --border: rgba(255, 255, 255, 0.12);
+    --text: rgba(255, 255, 255, 0.92);
+    --muted: rgba(255, 255, 255, 0.7);
+    --good: rgba(16, 185, 129, 1);
+    --warn: rgba(245, 158, 11, 1);
+    --bad: rgba(239, 68, 68, 1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    color: var(--text);
+    background: radial-gradient(1200px 800px at 20% 10%, #1b2a5c 0%, transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, #3b1b5c 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+
+.bg {
+    min-height: 100vh;
+    padding: 28px 16px;
+}
+
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.header h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+}
+
+.header p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.badge {
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.06);
+    padding: 10px 12px;
+    border-radius: 14px;
+    min-width: 240px;
+}
+
+.badge.free {
+    outline: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge.locked {
+    outline: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.badgeStrong {
+    font-weight: 800;
+    margin-top: 4px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+@media (min-width: 860px) {
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.card {
+    text-align: left;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 16px;
+    padding: 14px;
+    cursor: pointer;
+    transition: transform .08s ease, background .2s ease, border-color .2s ease;
+}
+
+.card:hover {
+    transform: translateY(-1px);
+    background: var(--card2);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.card:disabled {
+    cursor: not-allowed;
+    opacity: 0.75;
+    transform: none;
+}
+
+.cardTop {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.itemName {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hint {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.tag {
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.tagFree {
+    border-color: rgba(16, 185, 129, 0.45);
+    color: rgba(167, 243, 208, 0.95);
+}
+
+.tagTaken {
+    border-color: rgba(239, 68, 68, 0.45);
+    color: rgba(254, 202, 202, 0.95);
+}
+
+.tagMine {
+    border-color: rgba(245, 158, 11, 0.55);
+    color: rgba(253, 230, 138, 0.95);
+}
+
+.taken {
+    background: rgba(239, 68, 68, 0.10);
+}
+
+.mine {
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.lockedCard {
+    opacity: 0.6;
+}
+
+.footer {
+    margin-top: 16px;
+    color: var(--muted);
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+.modal {
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border);
+    background: rgba(15, 23, 42, 0.92);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.modal h2 {
+    margin: 0 0 8px;
+}
+
+.modal p {
+    margin: 8px 0;
+    color: var(--muted);
+}
+
+.warn {
+    color: rgba(253, 230, 138, 0.9) !important;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.btn {
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.btn.ghost {
+    background: transparent;
+}
+
+.btn.primary {
+    border-color: rgba(16, 185, 129, 0.55);
+    background: rgba(16, 185, 129, 0.18);
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    border: 1px solid var(--border);
+    background: rgba(15, 23, 42, 0.92);
+    padding: 10px 14px;
+    border-radius: 999px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
