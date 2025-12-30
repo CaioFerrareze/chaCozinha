@@ -1,44 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-
-type Item = { id: number; name: string };
-
-const ITEMS: Item[] = [
-  { id: 1, name: "Conjunto de colheres de silicone" },
-  { id: 2, name: "Espátula" },
-  { id: 3, name: "Concha" },
-  { id: 4, name: "Escumadeira" },
-  { id: 5, name: "Pegador de alimentos" },
-  { id: 6, name: "Batedor de arame (fouet)" },
-  { id: 7, name: "Abridor de latas" },
-  { id: 8, name: "Abridor de garrafas" },
-  { id: 9, name: "Descascador de legumes" },
-  { id: 10, name: "Ralador" },
-  { id: 11, name: "Jogo de facas" },
-  { id: 12, name: "Tábua de corte" },
-  { id: 13, name: "Tesoura de cozinha" },
-  { id: 14, name: "Peneira" },
-  { id: 15, name: "Amassador de alho" },
-  { id: 16, name: "Panela média" },
-  { id: 17, name: "Panela pequena" },
-  { id: 18, name: "Frigideira antiaderente" },
-  { id: 19, name: "Forma para bolo" },
-  { id: 20, name: "Assadeira" },
-  { id: 21, name: "Potes plásticos ou de vidro (kit)" },
-  { id: 22, name: "Porta-temperos" },
-  { id: 23, name: "Saleiro" },
-  { id: 24, name: "Açucareiro" },
-  { id: 25, name: "Porta-mantimentos" },
-  { id: 26, name: "Jogo de pratos" },
-  { id: 27, name: "Jogo de copos" },
-  { id: 28, name: "Jogo de talheres" },
-  { id: 29, name: "Canecas" },
-  { id: 30, name: "Jarra de suco" },
-  { id: 31, name: "Escorredor de louça" },
-  { id: 32, name: "Panos de prato" },
-  { id: 33, name: "Luva térmica" },
-  { id: 34, name: "Tapete de pia" },
-  { id: 35, name: "Porta-detergente com esponja" },
-];
+import { ITEMS, type Item } from "./assets/items";
 
 const LS_KEY = "cha_cozinha_my_choice";
 
@@ -71,14 +32,13 @@ export default function App() {
     if (saved) setMyChoice(Number(saved));
     refresh();
 
-    // “quase realtime” pros outros verem mudanças
     const t = setInterval(refresh, 4000);
     return () => clearInterval(t);
   }, []);
 
   useEffect(() => {
     if (!toast) return;
-    const t = setTimeout(() => setToast(null), 2500);
+    const t = setTimeout(() => setToast(null), 2600);
     return () => clearTimeout(t);
   }, [toast]);
 
@@ -127,24 +87,32 @@ export default function App() {
   }
 
   return (
-    <div className="bg">
-      <div className="container">
-        <header className="header">
-          <div>
-            <h1>Chá de Cozinha • Lista Colaborativa</h1>
+    <div className="page">
+      <div className="shell">
+        <header className="top">
+          <div className="titleBox">
+            <div className="pill">Chá de Cozinha</div>
+            <h1>Caio e Giovana</h1>
             <p>
-              Escolha <b>apenas 1 item</b>. Itens escolhidos ficam bloqueados para todos.
+
+              Escolha apenas <b>1 item</b>. Quando alguém escolhe, o item fica bloqueado para todos.
+
             </p>
           </div>
 
-          <div className={`badge ${locked ? "locked" : "free"}`}>
+          <div className={`statusCard ${locked ? "isLocked" : "isFree"}`}>
             {locked ? (
               <>
-                <div>Você já escolheu:</div>
-                <div className="badgeStrong">{myChoiceName}</div>
+                <div className="statusLabel">Sua escolha</div>
+                <div className="statusValue">{myChoiceName}</div>
+                <div className="statusHint">Obrigado! ❤️</div>
               </>
             ) : (
-              <>Você ainda não escolheu um item.</>
+              <>
+                <div className="statusLabel">Você ainda não escolheu</div>
+                <div className="statusValue">Selecione um item abaixo</div>
+                <div className="statusHint">Depois de confirmar, não dá para escolher outro.</div>
+              </>
             )}
           </div>
         </header>
@@ -172,11 +140,12 @@ export default function App() {
                     {isMine ? "Seu item" : isTaken ? "Escolhido" : "Disponível"}
                   </span>
                 </div>
+
                 <div className="hint">
                   {isMine
-                    ? "Obrigado! Você já fez sua escolha."
+                    ? "Você já escolheu este item."
                     : isTaken
-                      ? "Este item já foi escolhido."
+                      ? "Já escolhido por outra pessoa."
                       : locked
                         ? "Você já escolheu outro item."
                         : "Clique para escolher"}
@@ -188,7 +157,7 @@ export default function App() {
 
         <footer className="footer">
           <small>
-            Dica: abra em outro celular para ver a atualização (pode levar até 4s pelo refresh automático).
+            Atualiza automaticamente (até 4s). Se quiser, abra em outro celular para ver os itens marcados.
           </small>
         </footer>
       </div>
@@ -197,13 +166,20 @@ export default function App() {
       {modalItem && (
         <div className="modalOverlay" onClick={closeModal}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h2>Confirmar escolha</h2>
-            <p>
+            <div className="modalHead">
+              <h2>Confirmar escolha</h2>
+              <button className="iconBtn" onClick={closeModal} disabled={loading} aria-label="Fechar">
+                ✕
+              </button>
+            </div>
+
+            <p className="modalText">
               Você quer escolher: <b>{modalItem.name}</b>?
             </p>
-            <p className="warn">
+
+            <div className="alert">
               Ao confirmar, você não poderá escolher outro item neste dispositivo.
-            </p>
+            </div>
 
             <div className="modalActions">
               <button className="btn ghost" onClick={closeModal} disabled={loading}>
